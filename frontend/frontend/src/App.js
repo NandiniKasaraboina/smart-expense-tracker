@@ -1,6 +1,7 @@
 
 import { useState, useEffect } from "react";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
+const API = process.env.REACT_APP_API_URL;
 
 function App() {
 
@@ -32,7 +33,7 @@ function App() {
 
   // 🔐 LOGIN
   const handleLogin = async () => {
-    const res = await fetch("http://127.0.0.1:8000/login/", {
+    const res = await fetch(`${API}/login/`, {
       method: "POST",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify({ username: authUsername, password: authPassword }),
@@ -47,7 +48,7 @@ function App() {
 
   // 🔐 REGISTER
   const handleRegister = async () => {
-    const res = await fetch("http://127.0.0.1:8000/register/", {
+    const res = await fetch(`${API}/register/`, {
       method: "POST",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify({ username: authUsername, password: authPassword }),
@@ -66,7 +67,7 @@ function App() {
   const fetchExpenses = async () => {
     const token = localStorage.getItem("token");
 
-    const res = await fetch("http://127.0.0.1:8000/expenses/", {
+    const res = await fetch(`${API}/expenses/`, {
       headers: { Authorization: `Bearer ${token}` },
     });
 
@@ -97,8 +98,8 @@ function App() {
       return;
     }
 
-    let url = "http://127.0.0.1:8000/add-expense/";
-    if (editId) url = `http://127.0.0.1:8000/update-expense/${editId}/`;
+    let url = `${API}/add-expense/`;
+    if (editId) url = `${API}/update-expense/${editId}/`;
 
     await fetch(url, {
       method: "POST",
@@ -126,7 +127,7 @@ function App() {
   const deleteExpense = async (id) => {
     const token = localStorage.getItem("token");
 
-    await fetch(`http://127.0.0.1:8000/delete-expense/${id}/`, {
+    await fetch(`${API}/delete-expense/${id}/`, {
       headers: { Authorization: `Bearer ${token}` },
     });
 
@@ -147,7 +148,7 @@ function App() {
 
     const token = localStorage.getItem("token");
 
-    const res = await fetch("http://127.0.0.1:8000/ai-insight/", {
+    const res = await fetch(`${API}/ai-insight/`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
