@@ -2,6 +2,7 @@ from pathlib import Path
 import os
 from dotenv import load_dotenv
 from datetime import timedelta
+import dj_database_url
 
 # BASE DIR
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -11,8 +12,12 @@ load_dotenv(os.path.join(BASE_DIR, ".env"))
 
 # SECURITY
 SECRET_KEY = os.getenv("SECRET_KEY")
-DEBUG = True
-ALLOWED_HOSTS = []
+DEBUG = os.getenv("DEBUG", "False") == "True"
+
+ALLOWED_HOSTS = [
+    ".onrender.com",
+    "localhost"
+]
 
 # CORS
 CORS_ALLOW_ALL_ORIGINS = True
@@ -67,14 +72,9 @@ WSGI_APPLICATION = 'expense_tracker.wsgi.application'
 
 # DATABASE (PostgreSQL)
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'expense_db',
-        'USER': 'postgres',
-        'PASSWORD': os.getenv("DB_PASSWORD"),
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
+    "default": dj_database_url.config(
+        conn_max_age=600
+    )
 }
 
 # PASSWORD VALIDATION
@@ -92,7 +92,12 @@ USE_I18N = True
 USE_TZ = True
 
 # STATIC FILES
-STATIC_URL = 'static/'
+STATIC_URL = "static/"
+
+STATIC_ROOT = os.path.join(
+    BASE_DIR,
+    "staticfiles"
+)
 
 # DRF + JWT
 REST_FRAMEWORK = {
