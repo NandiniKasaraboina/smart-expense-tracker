@@ -22,11 +22,18 @@ from expenses import views
 from expenses.views import ai_insight
 
 urlpatterns = [
+    path('admin/', admin.site.urls),
+
     path('register/', views.register),
     path('login/', views.login),
+
     path('expenses/', views.get_expenses),
+
     path('add-expense/', views.add_expense),
+
     path('delete-expense/<int:id>/', views.delete_expense),
+
     path('update-expense/<int:id>/', views.update_expense),
-    path('ai-insight/',ai_insight),
+
+    path('ai-insight/', ai_insight),
 ]
